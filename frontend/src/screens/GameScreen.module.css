@@ -1,0 +1,307 @@
+.screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--space-4);
+  min-height: 100dvh;
+  padding: calc(var(--safe-top) + var(--space-4)) var(--space-4)
+    calc(var(--safe-bottom) + var(--space-4));
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Рядом варианты ответа и таймер, поэтому кнопка нарочито скромная: попасть
+   по ней случайно дороже, чем не найти её с первого взгляда. */
+.exit {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--bg-secondary);
+  color: var(--hint);
+  font-size: var(--text-md);
+  line-height: 1;
+}
+
+.exit:active {
+  transform: scale(0.92);
+}
+
+.progress {
+  flex: 1;
+  min-width: 0;
+}
+
+.progressLabel {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--hint);
+}
+
+.progressTrack {
+  height: 6px;
+  margin-top: var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  transition: width var(--dur-slow) var(--ease);
+}
+
+.question {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  animation: pop-in var(--dur-slow) var(--ease);
+}
+
+.questionText {
+  flex: 1;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.speak {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  font-size: var(--text-lg);
+}
+
+.speak:disabled {
+  opacity: 0.35;
+}
+
+.speaking {
+  animation: timer-pulse 900ms var(--ease) infinite;
+}
+
+@keyframes timer-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 56px;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-size: var(--text-md);
+  font-weight: 600;
+  text-align: left;
+  transition:
+    transform var(--dur-fast) var(--ease),
+    border-color var(--dur-base) var(--ease),
+    background var(--dur-base) var(--ease),
+    opacity var(--dur-base) var(--ease);
+  animation: rise-in var(--dur-base) var(--ease) backwards;
+}
+
+.option:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.optionIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--bg);
+  color: var(--hint);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+/* Свой принятый ответ: правильный вариант в этот момент ещё неизвестен. */
+.picked {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
+.muted {
+  opacity: 0.45;
+}
+
+.correct {
+  border-color: var(--success);
+  background: var(--success-soft);
+  animation:
+    pop-in var(--dur-base) var(--ease),
+    correct-glow var(--dur-slow) var(--ease);
+}
+
+@keyframes correct-glow {
+  0% {
+    box-shadow: 0 0 0 0 var(--success-soft);
+  }
+  45% {
+    box-shadow: 0 0 0 8px var(--success-soft);
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.wrong {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  animation: shake var(--dur-base) var(--ease);
+}
+
+.reveal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  animation: rise-in var(--dur-base) var(--ease);
+}
+
+.revealTitle {
+  font-weight: 700;
+}
+
+.revealCorrect {
+  color: var(--success);
+}
+
+.revealWrong {
+  color: var(--danger);
+}
+
+.explanation {
+  font-size: var(--text-sm);
+  color: var(--hint);
+}
+
+.bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+}
+
+.answered {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--hint);
+}
+
+.accepted {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  flex: 1;
+  text-align: center;
+  color: var(--hint);
+}
+
+/* ── Серия ────────────────────────────────────────────────────────────────
+   Стоит в верхней строке рядом с таймером: это второй счётчик, за которым
+   игрок следит по ходу раунда. */
+.streak {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  flex-shrink: 0;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--warning);
+  color: #1b1300;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  animation: pop-in var(--dur-base) var(--ease);
+}
+
+.streakMult {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+/* ── Вылетающие очки ──────────────────────────────────────────────────────
+   Собственный блок в потоке, а не оверлей: на узком экране всплывающее
+   число поверх вариантов перекрывало бы правильный ответ ровно в тот
+   момент, когда его показывают. */
+.floatScore {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--success);
+  animation: float-score var(--dur-slow) var(--ease);
+}
+
+.floatMult {
+  font-size: var(--text-lg);
+  font-weight: 800;
+  color: var(--warning);
+}
+
+@keyframes float-score {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.8);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

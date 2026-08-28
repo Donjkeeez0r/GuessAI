@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id              String          @id @default(uuid())
+  telegramId      BigInt          @unique
+  username        String?
+  firstName       String
+  photoUrl        String?
+  rating          Int             @default(1000)
+
+  createdPacks    Pack[]
+  gameLogs        GamePlayer[]
+
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model Pack {
+  id              String          @id @default(uuid())
+  title           String
+  description     String?
+  category        String          @default("General")
+  isAiGenerated   Boolean         @default(false)
+  isPublic        Boolean         @default(true)
+
+  authorId        String?
+  author          User?           @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  questions       Question[]
+  games           GameSession[]
+
+  createdAt       DateTime        @default(now())
+}
+
+model Question {
+  id              String          @id @default(uuid())
+  text            String
+  audioUrl        String?
+  options         String[]
+  correctOption   Int
+  explanation     String?
+
+  packId          String
+  pack            Pack            @relation(fields: [packId], references: [id], onDelete: Cascade)
+}
+
+model GameSession {
+  id              String          @id @default(uuid())
+  packId          String
+  
+  pack            Pack            @relation(fields: [packId], references: [id])
+
+  players         GamePlayer[]
+  createdAt       DateTime        @default(now())
+}
+
+model GamePlayer {
+  id              String          @id @default(uuid())
+  score           Int             @default(0)
+  place           Int?
+
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  gameSessionId   String
+  gameSession     GameSession     @relation(fields: [gameSessionId], references: [id], onDelete: Cascade)
+
+  // История игр читается выборкой по игроку — GET /users/me/history.
+  @@index([userId])
+  @@index([gameSessionId])
+}

@@ -1,0 +1,20 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--bg-secondary);
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+
+.toggle:active {
+  transform: scale(0.94);
+}
+
+.off {
+  opacity: 0.55;
+}

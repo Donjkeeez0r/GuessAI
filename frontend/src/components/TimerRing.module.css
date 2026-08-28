@@ -1,0 +1,50 @@
+.ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.svg {
+  transform: rotate(-90deg);
+}
+
+.track {
+  stroke: var(--border);
+}
+
+.progress {
+  stroke: var(--brand);
+  stroke-linecap: round;
+  transition: stroke var(--dur-base) var(--ease);
+}
+
+/* Последние секунды: цвет тревоги и пульс. */
+.urgent .progress {
+  stroke: var(--danger);
+}
+
+.urgent {
+  animation: timer-pulse 640ms var(--ease) infinite;
+}
+
+@keyframes timer-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+.value {
+  position: absolute;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.urgent .value {
+  color: var(--danger);
+}

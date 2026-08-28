@@ -1,0 +1,130 @@
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+}
+
+.place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  max-width: 120px;
+  animation: rise-in var(--dur-slow) var(--ease) backwards;
+}
+
+.place:nth-child(1) {
+  animation-delay: 120ms;
+}
+
+.place:nth-child(2) {
+  animation-delay: 0ms;
+}
+
+.place:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.medal {
+  font-size: var(--text-xl);
+}
+
+.placeName {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.pillar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  padding-top: var(--space-2);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--bg-secondary);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.first {
+  height: 84px;
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.second {
+  height: 62px;
+}
+
+.third {
+  height: 48px;
+}
+
+.winner {
+  text-align: center;
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.sectionTitle {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--hint);
+}
+
+.myRating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  font-weight: 700;
+}
+
+.up {
+  color: var(--success);
+}
+
+.down {
+  color: var(--danger);
+}
+
+.flat {
+  color: var(--hint);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
+.soloResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-6) 0;
+}
+
+.soloScore {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--brand);
+}
+
+.soloLabel {
+  font-size: var(--text-sm);
+  color: var(--hint);
+}

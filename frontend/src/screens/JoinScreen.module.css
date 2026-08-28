@@ -1,0 +1,40 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  padding-top: var(--space-6);
+  text-align: center;
+}
+
+.hint {
+  color: var(--hint);
+  max-width: 32ch;
+}
+
+.code {
+  width: 100%;
+  max-width: 320px;
+  padding: var(--space-4);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  outline: none;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+
+.code:focus {
+  border-color: var(--brand);
+}
+
+.invalid {
+  border-color: var(--danger);
+  animation: shake var(--dur-base) var(--ease);
+}

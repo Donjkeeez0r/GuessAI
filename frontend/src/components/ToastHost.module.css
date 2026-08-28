@@ -1,0 +1,39 @@
+.host {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--safe-bottom) + var(--space-4));
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 0 var(--space-4);
+  pointer-events: none;
+}
+
+.toast {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  color: var(--text);
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-md);
+  border-left: 3px solid var(--hint);
+  pointer-events: auto;
+  animation: rise-in var(--dur-base) var(--ease);
+}
+
+.error {
+  border-left-color: var(--danger);
+}
+
+.success {
+  border-left-color: var(--success);
+}
+
+.info {
+  border-left-color: var(--brand);
+}

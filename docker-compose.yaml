@@ -1,0 +1,83 @@
+# Иначе compose берёт имя проекта из имени каталога (main) и называет по нему
+# контейнеры, сеть и тома — вплоть до пересечения с посторонним проектом,
+# у которого каталог называется так же.
+name: guessai
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+      POSTGRES_DB: ${DB_NAME:-guessai_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_main:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-guessai_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    # Явный тег — по той же причине, что и у фронта: иначе compose назовёт
+    # образ по каталогу проекта (main-backend) и может перезаписать чужой.
+    image: guessai-backend
+    build:
+      context: ./backend
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Внутри сети compose Postgres и Redis доступны по именам сервисов.
+      DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-guessai_db}?schema=public
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET обязателен}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:?GEMINI_API_KEY обязателен}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:?TELEGRAM_BOT_TOKEN обязателен}
+      AI_QUESTIONS_PER_PACK: ${AI_QUESTIONS_PER_PACK:-10}
+      ROUND_DURATION_MS: ${ROUND_DURATION_MS:-15000}
+      ROUND_REVEAL_MS: ${ROUND_REVEAL_MS:-5000}
+      ROOM_TTL_SECONDS: ${ROOM_TTL_SECONDS:-7200}
+      PORT: 3000
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+
+  # Каталог frontend/ создаёт следующий агент. До этого момента поднимайте
+  # только нужные сервисы: docker compose up -d db redis backend
+  frontend:
+    # Явный тег обязателен: без него compose берёт имя по каталогу проекта
+    # (main-frontend) и перезаписывает образ постороннего проекта с тем же именем.
+    image: guessai-frontend
+    build:
+      context: ./frontend
+      args:
+        # Vite вшивает переменные на этапе сборки, поэтому это build-аргументы,
+        # а не переменные окружения контейнера. VITE_API_URL пуста намеренно:
+        # API берётся с origin фронта через прокси nginx.
+        VITE_API_URL: ${VITE_API_URL:-}
+        VITE_BOT_USERNAME: ${VITE_BOT_USERNAME:-}
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+
+volumes:
+  postgres_main:

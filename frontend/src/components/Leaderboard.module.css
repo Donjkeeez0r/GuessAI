@@ -1,0 +1,100 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/*
+ * Строки переставляются при смене очков: сдвиг по вертикали анимируется
+ * через FLIP-переменную --shift, которую проставляет компонент.
+ */
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+  transition: transform var(--dur-slow) var(--ease);
+}
+
+.moved {
+  animation: leaderboard-shift var(--dur-slow) var(--ease);
+}
+
+@keyframes leaderboard-shift {
+  from {
+    transform: translateY(var(--shift, 0px));
+  }
+  to {
+    transform: none;
+  }
+}
+
+.me {
+  background: var(--brand-soft);
+}
+
+.offline {
+  opacity: 0.5;
+}
+
+.place {
+  width: 24px;
+  flex-shrink: 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--hint);
+  font-variant-numeric: tabular-nums;
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.score {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.gained {
+  min-width: 46px;
+  text-align: right;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--success);
+  font-variant-numeric: tabular-nums;
+}
+
+.zero {
+  color: var(--hint);
+}
+
+.delta {
+  min-width: 48px;
+  text-align: right;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.up {
+  color: var(--success);
+}
+
+.down {
+  color: var(--danger);
+}
+
+.flat {
+  color: var(--hint);
+}
+
+.compact .row {
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+}

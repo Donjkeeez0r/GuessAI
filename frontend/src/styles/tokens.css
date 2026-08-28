@@ -1,0 +1,82 @@
+/*
+ * Дизайн-токены GuessAI.
+ *
+ * Основа — тема Telegram (--tg-theme-*), поэтому приложение выглядит нативно
+ * и в светлой, и в тёмной теме. У каждой переменной обязателен фолбэк: вне
+ * Telegram переменные темы не заданы, и без фолбэка экран будет пустым.
+ */
+
+:root {
+  /* ── Поверхности и текст: наследуются от темы Telegram ── */
+  --bg: var(--tg-theme-bg-color, #ffffff);
+  --bg-secondary: var(--tg-theme-secondary-bg-color, #f2f3f5);
+  --surface: var(--tg-theme-section-bg-color, var(--tg-theme-bg-color, #ffffff));
+  --text: var(--tg-theme-text-color, #16181c);
+  --hint: var(--tg-theme-hint-color, #7d848c);
+  --link: var(--tg-theme-link-color, #2f7fe0);
+  --tg-button: var(--tg-theme-button-color, #2f7fe0);
+  --tg-button-text: var(--tg-theme-button-text-color, #ffffff);
+
+  /* ── Акцент бренда: один яркий цвет поверх темы ── */
+  --brand: #7c5cff;
+  --brand-strong: #6242e0;
+  --brand-soft: rgba(124, 92, 255, 0.14);
+  --on-brand: #ffffff;
+
+  /* ── Семантика ответов ── */
+  --success: #21b573;
+  --success-soft: rgba(33, 181, 115, 0.16);
+  --danger: #e5484d;
+  --danger-soft: rgba(229, 72, 77, 0.16);
+  --warning: #f5a524;
+
+  /* ── Разделители и тени ── */
+  --border: color-mix(in srgb, var(--hint) 26%, transparent);
+  --border-strong: color-mix(in srgb, var(--hint) 45%, transparent);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.1);
+  --shadow-brand: 0 8px 24px rgba(124, 92, 255, 0.32);
+
+  /* ── Скругления ── */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ── Отступы ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* ── Типографика ── */
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto,
+    'Helvetica Neue', sans-serif;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 26px;
+  --text-2xl: 34px;
+
+  /* ── Тайминги ── */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur-base: 240ms;
+  --dur-slow: 420ms;
+
+  /* ── Мобильный вьюпорт ── */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --tap-target: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}
